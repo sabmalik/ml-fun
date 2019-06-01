@@ -38,13 +38,18 @@ y_pred = regressor.predict(X_test)
 df = pd.DataFrame({'Actual': y_test, 'Predicted': y_pred})
 df1 = df.head(25)
 
-# plot them for us please
+# plot them in a bar chart for us please
 df1.plot(kind='bar',figsize=(8,4))
 plt.grid(which='major', linestyle='-', linewidth='0.5', color='green')
 plt.grid(which='minor', linestyle=':', linewidth='0.5', color='black')
 plt.show()
 
 # show some fancy metrics
+# Mean absolute error or MAE
 print('Mean Absolute Error:', metrics.mean_absolute_error(y_test, y_pred))  
+
+# Mean squared error or MSE
 print('Mean Squared Error:', metrics.mean_squared_error(y_test, y_pred))  
+
+# Root mean squared error or RMSE
 print('Root Mean Squared Error:', np.sqrt(metrics.mean_squared_error(y_test, y_pred)))
