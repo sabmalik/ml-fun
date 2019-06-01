@@ -1,3 +1,4 @@
+# load up the libraries we will need
 import pandas as pd  
 import numpy as np  
 import matplotlib.pyplot as plt  
@@ -15,12 +16,15 @@ print(dataset.shape)
 print(dataset.describe())
 
 # we always call the independent variables as X
+# these are our features
 X = dataset[['Bedrooms', 'Bathrooms', 'Land size sqm']]
 
 # the dependent variable is called y
 y = dataset['Price']
 
 # lets split our data into training and test sets
+# the size is mentioned in a number between 0 to 1
+# here we have reserved 0.2 (20%) for our test set
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
 
 # use regression on our training data
