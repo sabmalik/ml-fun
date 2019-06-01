@@ -8,7 +8,7 @@ from sklearn import metrics
 # load the dataset from the csv file
 dataset = pd.read_csv('house-prices.csv')
 
-# shows you the dimentionality of the data (rows, columns)
+# shows you the dimensionality of the data (rows, columns)
 print(dataset.shape)
 
 # spits out some intersting details about the data
