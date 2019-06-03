@@ -26,7 +26,7 @@ print(dataset.describe())
 X = dataset[['Bedrooms', 'Bathrooms', 'Land size sqm']]
 
 # the dependent variable is called y
-y = dataset['Above500k']
+y = dataset['Above1.5m']
 
 # lets split our data into training and test sets
 # the size is mentioned in a number between 0 to 1
@@ -63,4 +63,16 @@ plt.tight_layout()
 plt.title('Confusion matrix', y=1.1)
 plt.ylabel('Actual label')
 plt.xlabel('Predicted label')
+plt.show()
+
+print("Accuracy:",metrics.accuracy_score(y_test, y_pred))
+print("Precision:",metrics.precision_score(y_test, y_pred))
+print("Recall:",metrics.recall_score(y_test, y_pred))
+
+
+y_pred_proba = regressor.predict_proba(X_test)[::,1]
+fpr, tpr, _ = metrics.roc_curve(y_test,  y_pred_proba)
+auc = metrics.roc_auc_score(y_test, y_pred_proba)
+plt.plot(fpr,tpr,label="data 1, auc="+str(auc))
+plt.legend(loc=4)
 plt.show()
