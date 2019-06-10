@@ -1,11 +1,8 @@
 # load up the libraries we will need
 import pandas as pd  
-import numpy as np  
-import seaborn as sns
 import matplotlib.pyplot as plt  
 from sklearn.model_selection import train_test_split 
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import classification_report
 from sklearn import metrics
 
 # load the dataset from the csv file
@@ -18,7 +15,7 @@ print(dataset.head())
 # shows you the dimensionality of the data (rows, columns)
 print(dataset.shape)
 
-# spits out some intersting details about the data
+# spits out some interesting details about the data
 print(dataset.describe())
 
 # we always call the independent variables as X
@@ -43,36 +40,25 @@ regressor.fit(X_train, y_train)
 # lets make some predictions
 y_pred = regressor.predict(X_test)
 
-# print the accuracy report
-print(classification_report(y_test,y_pred))
+# show me the confusion matrix, takes the format
+# (TrueNegative, FalsePositive, FalseNegative, TruePositive)
+confusion_matrix = metrics.confusion_matrix(y_test, y_pred).ravel()
+print(confusion_matrix)
 
-# import the metrics class
-cnf_matrix = metrics.confusion_matrix(y_test, y_pred)
+# print out some metrics
+# how often is the prediction correct?
+print('Accuracy [ (TP + TN)/Total ] :', metrics.accuracy_score(y_test, y_pred))
 
-class_names = [0,1] # name  of classes
-fig, ax = plt.subplots()
-tick_marks = np.arange(len(class_names))
-plt.xticks(tick_marks, class_names)
-plt.yticks(tick_marks, class_names)
+# whats the ratio of true positives to the all the positives returned
+print('Precision [ TP/(TP + FP) ] :', metrics.precision_score(y_test, y_pred))
 
-# create heatmap
-sns.heatmap(pd.DataFrame(cnf_matrix), annot=True, cmap="YlGnBu" ,fmt='g')
-ax.xaxis.set_label_position("top")
+# true positives ratio to how many should have been true postives
+print('Recall [ TP/(TP + FN) ]:', metrics.recall_score(y_test, y_pred))
 
-plt.tight_layout()
-plt.title('Confusion matrix', y=1.1)
-plt.ylabel('Actual label')
-plt.xlabel('Predicted label')
-plt.show()
-
-print("Accuracy:",metrics.accuracy_score(y_test, y_pred))
-print("Precision:",metrics.precision_score(y_test, y_pred))
-print("Recall:",metrics.recall_score(y_test, y_pred))
-
-
+# find and show me area under the curve - AUC - ROC
 y_pred_proba = regressor.predict_proba(X_test)[::,1]
-fpr, tpr, _ = metrics.roc_curve(y_test,  y_pred_proba)
+false_positive_rate, true_positive_rate, _ = metrics.roc_curve(y_test,  y_pred_proba)
 auc = metrics.roc_auc_score(y_test, y_pred_proba)
-plt.plot(fpr,tpr,label="data 1, auc="+str(auc))
+plt.plot(false_positive_rate, true_positive_rate, label='auc=' + str(auc))
 plt.legend(loc=4)
 plt.show()
